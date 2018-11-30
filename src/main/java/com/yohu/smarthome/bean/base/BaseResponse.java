@@ -9,8 +9,10 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class BaseResponse {
+public class BaseResponse<T> {
     private String code;
     private String content;
+
+    private T msg;
 
 }
