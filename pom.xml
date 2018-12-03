@@ -112,6 +112,13 @@
             <artifactId>pi4j-core</artifactId>
             <version>1.2-SNAPSHOT</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.github.oshi</groupId>
+            <artifactId>oshi-core</artifactId>
+            <version>3.4.4</version>
+        </dependency>
+
     </dependencies>
 
     <build>
