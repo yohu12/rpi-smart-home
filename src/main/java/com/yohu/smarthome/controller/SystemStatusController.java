@@ -16,7 +16,7 @@ import io.swagger.annotations.ApiOperation;
  * @since 2018/11/29
  */
 @RestController
-@RequestMapping("rpi")
+@RequestMapping("sys")
 @Api(value = "系统状态接口", produces = "application/json", tags = "系统状态接口")
 public class SystemStatusController {
 

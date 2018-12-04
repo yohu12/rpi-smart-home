@@ -1,25 +1,30 @@
 package com.yohu.smarthome.service;
 
 import com.querydsl.core.types.Predicate;
-import com.querydsl.jpa.impl.JPADeleteClause;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.yohu.smarthome.bean.WOLNode;
 import com.yohu.smarthome.dao.MacAddressRepository;
+import com.yohu.smarthome.dao.PhotoRepository;
 import com.yohu.smarthome.entity.MacAddress;
+import com.yohu.smarthome.entity.Photo;
 import com.yohu.smarthome.entity.QMacAddress;
+import com.yohu.smarthome.entity.QPhoto;
 import com.yohu.smarthome.exception.UnableToWakeUpWOLNodeException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
+import java.util.List;
 
 /**
  * @author: huyong
  * @date: 2018/11/30 16:47
  */
 @Service
-public class WolService {
+public class PhotoService {
 
 
     @Autowired
@@ -33,25 +38,26 @@ public class WolService {
     }
 
     @Autowired
-    private MacAddressRepository macAddressRepository;
+    private PhotoRepository photoRepository;
 
-    public void wakeUP(String mackAddress) throws UnableToWakeUpWOLNodeException {
-        WOLNode node = new WOLNode(mackAddress);
-        node.wakeUP();
+    public List<Photo> save(List<Photo> photoList) {
+        return photoRepository.saveAll(photoList);
     }
 
-    public MacAddress save(MacAddress macAddress) {
-        return macAddressRepository.save(macAddress);
+    public void delete(List<Photo> photoList) {
+        photoRepository.deleteAll(photoList);
     }
 
-    public void deleteById(Long macAddressId) {
-        macAddressRepository.deleteById(macAddressId);
+    @Transactional
+    public List<Photo> findAll() {
+        return photoRepository.findAll();
     }
 
-    public long deleteByMacAddress(String macAddress) {
-        QMacAddress qMacAddress = QMacAddress.macAddress;
-        Predicate predicate = qMacAddress.address.eq(macAddress);
+    @Transactional
+    public long deleteByUrl(List<String> urlList) {
+        QPhoto qPhoto = QPhoto.photo;
+        Predicate predicate = qPhoto.photoUrl.in(urlList);
 
-        return queryFactory.delete(qMacAddress).where(predicate).execute();
+        return queryFactory.delete(qPhoto).where(predicate).execute();
     }
 }
