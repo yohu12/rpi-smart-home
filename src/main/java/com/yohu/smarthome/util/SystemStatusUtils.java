@@ -116,9 +116,9 @@ public class SystemStatusUtils {
             long total = fs.getTotalSpace();
 
             SystemStorage systemStorage = new SystemStorage();
-            systemStorage.setUsedStorage(FormatUtil.formatBytes(usable));
+            systemStorage.setUsedStorage( FormatUtil.formatBytes(total -usable));
             systemStorage.setTotalStorage(FormatUtil.formatBytes(fs.getTotalSpace()));
-            systemStorage.setUsedFreq(String.format("%.1f%%", 100d * usable / total));
+            systemStorage.setUsedFreq(String.format("%.1f%%", 100d * (total-usable) / total));
             systemStorage.setDriverName(fs.getName());
 
             System.out.format(" %s (%s) [%s] %s of %s free (%.1f%%) is %s and is mounted at %s%n", fs.getName(),
